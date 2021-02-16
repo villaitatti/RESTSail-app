@@ -18,6 +18,6 @@
         ephedra:name "Accept" ;
         ephedra:value "application/json"
       ] ;
-      ephedra:implementsService :geosql
+      ephedra:implementsService :RESTSail
     ] 
   ] .
