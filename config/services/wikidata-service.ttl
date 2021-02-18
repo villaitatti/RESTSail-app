@@ -1,0 +1,66 @@
+PREFIX sp: <http://spinrdf.org/sp#>
+PREFIX spin: <http://spinrdf.org/spin#>
+PREFIX spl: <http://spinrdf.org/spl#>
+PREFIX ephedra: <http://www.researchspace.org/resource/system/ephedra#>
+PREFIX sail: <http://www.openrdf.org/config/sail#>
+PREFIX wiki: <http://www.researchspace.com/resource/assets/Ontologies/wikidata#>
+PREFIX schema: <http://schema.org/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX : <http://www.researchspace.org/resource/system/service/custom#>
+
+:wikidataService a ephedra:Service ;
+	sail:sailType "researchspace:RESTSail" ;
+	rdfs:label "A wrapper for the OpenStreetMap service.";
+	ephedra:hasSPARQLPattern (
+    [
+      sp:subject :_results ;
+      sp:predicate wiki:hasWikidataSearchToken ;
+      sp:object :_search
+    ]
+    [
+      sp:subject :_results ;
+      sp:predicate wiki:language ;
+      sp:object :_language
+    ]
+    [
+      sp:subject :_results ;
+      sp:predicate wiki:format ;
+      sp:object :_format
+    ]
+    [
+      sp:subject :_results ;
+      sp:predicate wiki:wikidataID ;
+      sp:object :_id
+    ]
+  );
+
+  spin:constraint [
+    a spl:Argument ;
+    rdfs:comment "search term" ;
+    spl:predicate :_search ;
+    spl:valueType xsd:string
+  ] ;
+
+  spin:constraint [
+    a spl:Argument ;
+    rdfs:comment "The language to return" ;
+    spl:predicate :_language ;
+    spl:defaultValue "en"^^xsd:string ;
+    spl:valueType xsd:string
+  ] ;
+
+  spin:constraint [
+    a spl:Argument ;
+    rdfs:comment "The format to return" ;
+    spl:predicate :_format ;
+    spl:defaultValue "json"^^xsd:string ;
+    spl:valueType xsd:string
+  ] ;
+
+  spin:column [
+    a spin:Column ;
+    rdfs:comment "Wikidata ID" ;
+    spl:predicate :_id ;
+    ephedra:jsonPath "search.$.id" ;
+    spl:valueType xsd:string
+  ] .
