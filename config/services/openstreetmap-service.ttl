@@ -3,12 +3,12 @@ PREFIX spin: <http://spinrdf.org/spin#>
 PREFIX spl: <http://spinrdf.org/spl#>
 PREFIX ephedra: <http://www.researchspace.org/resource/system/ephedra#>
 PREFIX sail: <http://www.openrdf.org/config/sail#>
-PREFIX osm: <http://www.metaphacts.com/ontologies/osm#>
+PREFIX osm: <http://www.researchspace.com/resource/assets/Ontologies/osm#>
 PREFIX geo: <http://www.opengis.net/ont/geosparql#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX : <http://www.researchspace.org/resource/system/service/custom#>
 
-:RESTSail a ephedra:Service ;
+:openstreetmapService a ephedra:Service ;
 	sail:sailType "researchspace:RESTSail" ;
 	rdfs:label "A wrapper for the OpenStreetMap service.";
 	ephedra:hasSPARQLPattern (
@@ -19,7 +19,7 @@ PREFIX : <http://www.researchspace.org/resource/system/service/custom#>
     ]
     [
       sp:subject :_results ;
-      sp:predicate osm:polygonText ;
+      sp:predicate osm:geoText ;
       sp:object :_polygon_text
     ]
     [
@@ -34,6 +34,11 @@ PREFIX : <http://www.researchspace.org/resource/system/service/custom#>
     ]
     [
       sp:subject :_results ;
+      sp:predicate osm:limit ;
+      sp:object :_limit
+    ]
+    [
+      sp:subject :_results ;
       sp:predicate rdfs:label ;
       sp:object :_display_name
     ]
@@ -42,70 +47,67 @@ PREFIX : <http://www.researchspace.org/resource/system/service/custom#>
       sp:predicate osm:wktGeotext ;
       sp:object :_geotext
     ]
-    [
-      sp:subject :_results ;
-      sp:predicate osm:wikidataID ;
-      sp:object :_wikidataID
-    ]
-  ) ;
-  spin:constraint
-  [
+  );
+
+  spin:constraint [
     a spl:Argument ;
     rdfs:comment "search term" ;
     spl:predicate :_q ;
     spl:valueType xsd:string
-    ] ;
-    spin:constraint
-  [
+  ] ;
+
+  spin:constraint [
     a spl:Argument ;
     rdfs:comment "polygon text flag" ;
     spl:predicate :_polygon_text ;
     spl:defaultValue "1"^^xsd:integer ;
     spl:valueType xsd:integer
-    ] ;
-    spin:constraint
-  [
+  ] ;
+
+  spin:constraint [
     a spl:Argument ;
     rdfs:comment "format" ;
     spl:predicate :_format ;
+    spl:defaultValue "jsonv2"^^xsd:string ;
     spl:valueType xsd:string
-    ] ;
-    spin:constraint
-  [
+  ] ;
+
+  spin:constraint [
     a spl:Argument ;
     rdfs:comment "extra tags flag" ;
     spl:predicate :_extratags ;
+    spl:defaultValue "1"^^xsd:integer ;
     spl:valueType xsd:integer
-    ] ;
-    spin:column
-  [
+  ] ;
+
+  spin:constraint [
+    a spl:Argument ;
+    rdfs:comment "limit the result" ;
+    spl:predicate :_limit ;
+    spl:defaultValue "10"^^xsd:integer ;
+    spl:valueType xsd:integer
+  ] ;
+
+  spin:column [
     a spin:Column ;
     rdfs:comment "results" ;
     spl:predicate :_results ;
     spl:valueType rdfs:Resource;
     ephedra:jsonPath "$"
   ] ;
-  spin:column
-  [
+
+  spin:column [
     a spin:Column ;
     rdfs:comment "display name" ;
     spl:predicate :_display_name ;
     spl:valueType xsd:string;
     ephedra:jsonPath "$.display_name"
   ] ;
-  spin:column
-  [
+
+  spin:column [
     a spin:Column ;
     rdfs:comment "geotext" ;
     spl:predicate :_geotext ;
     ephedra:jsonPath "$.geotext" ;
     spl:valueType geo:wktLiteral
-  ] ;
-  spin:column
-  [
-    a spin:Column ;
-    rdfs:comment "wikidataID" ;
-    spl:predicate :_wikidataID ;
-    ephedra:jsonPath "$.extratags.wikidata" ;
-    spl:valueType xsd:string
   ] .

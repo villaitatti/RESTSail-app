@@ -6,8 +6,8 @@
 @prefix : <http://www.researchspace.org/resource/system/service/custom#> .
 
 [] a repo:Repository ;
-  repo:repositoryID "RESTSail" ;
-  rdfs:label "A wrapper for the general RESTSail repository" ;
+  repo:repositoryID "openstreetmap" ;
+  rdfs:label "A wrapper for OpenStreetMap using RESTSail repository" ;
   repo:repositoryImpl [
     repo:repositoryType "openrdf:SailRepository" ;
     sr:sailImpl [
@@ -18,6 +18,6 @@
         ephedra:name "Accept" ;
         ephedra:value "application/json"
       ] ;
-      ephedra:implementsService :RESTSail
+      ephedra:implementsService :openstreetmapService
     ] 
   ] .
