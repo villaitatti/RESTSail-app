@@ -1,0 +1,66 @@
+
+PREFIX sp: <http://spinrdf.org/sp#>
+PREFIX spin: <http://spinrdf.org/spin#>
+PREFIX spl: <http://spinrdf.org/spl#>
+PREFIX ephedra: <http://www.researchspace.org/resource/system/ephedra#>
+PREFIX sail: <http://www.openrdf.org/config/sail#>
+PREFIX lc: <http://www.researchspace.com/resource/assets/Ontologies/libraycloud#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX : <http://www.researchspace.org/resource/system/service/custom#>
+
+:LibraryCloud a ephedra:Service ;
+	sail:sailType "researchspace:RESTSail" ;
+	rdfs:label "A wrapper for the LibraryCloud service.";
+	ephedra:hasSPARQLPattern (
+
+    [
+      sp:subject :_results ;
+      sp:predicate lc:hasSetName ;
+      sp:object :_setName
+    ]
+
+    [
+      sp:subject :_results ;
+      sp:predicate lc:hasTitle ;
+      sp:object :_title
+    ]
+        
+    [
+      sp:subject :_results ;
+      sp:predicate lc:hasGenre ;
+      sp:object :_genre
+    ]
+    
+  );
+
+  spin:constraint [
+    a spl:Argument ;
+    rdfs:comment "search term" ;
+    spl:predicate :_setName ;
+    spl:valueType xsd:string
+  ] ;
+
+  spin:column [
+    a spin:Column ;
+    rdfs:comment "results" ;
+    spl:predicate :_results ;
+    spl:valueType rdfs:Resource;
+    ephedra:jsonPath "$.items.mods.[*]"
+  ] ;
+
+spin:column [
+    a spin:Column ;
+    rdfs:comment "results" ;
+    spl:predicate :_genre ;
+    spl:valueType rdfs:Resource;
+    ephedra:jsonPath "$.genre[*].#text"
+  ] ;
+
+  spin:column [
+    a spin:Column ;
+    rdfs:comment "The title" ;
+    spl:predicate :_title ;
+    spl:valueType xsd:string;
+    ephedra:jsonPath "$.titleInfo.title"
+  ] .
+      

@@ -93,7 +93,7 @@ PREFIX : <http://www.researchspace.org/resource/system/service/custom#>
     rdfs:comment "results" ;
     spl:predicate :_results ;
     spl:valueType rdfs:Resource;
-    ephedra:jsonPath "$"
+    ephedra:jsonPath "$.[*]"
   ] ;
 
   spin:column [
@@ -101,13 +101,13 @@ PREFIX : <http://www.researchspace.org/resource/system/service/custom#>
     rdfs:comment "display name" ;
     spl:predicate :_display_name ;
     spl:valueType xsd:string;
-    ephedra:jsonPath "$.display_name"
+    ephedra:jsonPath "display_name"
   ] ;
 
   spin:column [
     a spin:Column ;
     rdfs:comment "geotext" ;
     spl:predicate :_geotext ;
-    ephedra:jsonPath "$.geotext" ;
+    ephedra:jsonPath "geotext" ;
     spl:valueType geo:wktLiteral
   ] .

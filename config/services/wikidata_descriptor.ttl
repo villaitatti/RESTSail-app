@@ -24,6 +24,11 @@ PREFIX : <http://www.researchspace.org/resource/system/service/custom#>
     ]
     [
       sp:subject :_results ;
+      sp:predicate wiki:action ;
+      sp:object :_action
+    ]
+    [
+      sp:subject :_results ;
       sp:predicate wiki:format ;
       sp:object :_format
     ]
@@ -38,6 +43,14 @@ PREFIX : <http://www.researchspace.org/resource/system/service/custom#>
     a spl:Argument ;
     rdfs:comment "search term" ;
     spl:predicate :_search ;
+    spl:valueType xsd:string
+  ] ;
+
+  spin:constraint [
+    a spl:Argument ;
+    rdfs:comment "The action to request" ;
+    spl:predicate :_action ;
+    spl:defaultValue "wbsearchentities"^^xsd:string;
     spl:valueType xsd:string
   ] ;
 
